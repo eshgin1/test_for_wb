@@ -1,17 +1,18 @@
 import "./App.css";
 import { Typography } from "@mui/material";
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchUsers } from "./store/thunks/fetchUsers";
+import { addUsers } from "./store/thunks/addUsers";
 
 import TableUsers from "./components/TableUsers";
+import UserFormModal from "./components/UserFormModal";
+import { useAppDispatch, useAppSelector } from "./hooks/useTypedDispatch";
 
 function App() {
-  const dispatch = useDispatch();
-  const { dataUsers, error, loading } = useSelector((state) => state.users);
+  const dispatch = useAppDispatch();
+  const { dataUsers, error, loading } = useAppSelector((state) => state.users);
 
   useEffect(() => {
-    dispatch(fetchUsers());
+    dispatch(addUsers());
   }, [dispatch]);
 
   if (loading) {
@@ -37,6 +38,7 @@ function App() {
       <div className="table-block">
         <TableUsers dataUsers={dataUsers} />
       </div>
+      <UserFormModal />
     </>
   );
 }

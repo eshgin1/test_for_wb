@@ -1,4 +1,5 @@
 import {
+  Button,
   Pagination,
   Paper,
   Table,
@@ -11,8 +12,12 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import { useMemo, useState } from "react";
+import { useDispatch } from "react-redux";
+import { openModal } from "../store/slices/modalFormSlice";
+import type { User } from "../types/userTypes";
 
-const TableUsers = ({ dataUsers }) => {
+const TableUsers = ({ dataUsers }: { dataUsers: User[] }) => {
+  const dispatch = useDispatch();
   const [page, setPage] = useState(1);
   const itemsPerPage = 5;
   const totalPages = Math.ceil(dataUsers.length / itemsPerPage);
@@ -27,6 +32,10 @@ const TableUsers = ({ dataUsers }) => {
     return dataUsers?.slice(start, end);
   }, [dataUsers, page]);
 
+  const editProfile = (user: User) => {
+    dispatch(openModal(user));
+  };
+
   return (
     <>
       <Typography variant="h4" gutterBottom>
@@ -39,10 +48,11 @@ const TableUsers = ({ dataUsers }) => {
               {cols.map((item, i) => (
                 <TableCell key={i}>{item}</TableCell>
               ))}
+              <TableCell>действие</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {users.map((item) => (
+            {users.map((item: User) => (
               <TableRow key={item.id}>
                 <TableCell>
                   {dayjs(item.createdAt).format("DD.MM.YYYY")}
@@ -58,6 +68,15 @@ const TableUsers = ({ dataUsers }) => {
                 </TableCell>
                 <TableCell>{item.city}</TableCell>
                 <TableCell>{item.id}</TableCell>
+                <TableCell>
+                  <Button
+                    variant="text"
+                    size="small"
+                    onClick={() => editProfile(item)}
+                  >
+                    Редактировать
+                  </Button>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -67,7 +86,7 @@ const TableUsers = ({ dataUsers }) => {
         className="pagination"
         count={totalPages}
         page={page}
-        onChange={(event, value) => setPage(value)}
+        onChange={(_, value) => setPage(value)}
       />
     </>
   );

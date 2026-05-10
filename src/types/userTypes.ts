@@ -1,0 +1,18 @@
+export interface User {
+  id: string;
+  name: string;
+  city: string;
+  avatar: string;
+  createdAt: string;
+}
+
+export interface UsersState {
+  dataUsers: User[];
+  error: string | null;
+  loading: boolean;
+}
+
+export interface UserFormData {
+  name: string;
+  city: string;
+}
