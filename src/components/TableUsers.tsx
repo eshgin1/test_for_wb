@@ -32,15 +32,24 @@ const TableUsers = ({ dataUsers }: { dataUsers: User[] }) => {
     return dataUsers?.slice(start, end);
   }, [dataUsers, page]);
 
-  const editProfile = (user: User) => {
+  const editUser = (user: User) => {
     dispatch(openModal(user));
+  };
+
+  const addNewUser = () => {
+    dispatch(openModal(null));
   };
 
   return (
     <>
-      <Typography variant="h4" gutterBottom>
-        Список пользователей
-      </Typography>
+      <div className="table-header">
+        <Typography variant="h4" gutterBottom>
+          Список пользователей
+        </Typography>
+        <Button variant="contained" onClick={addNewUser}>
+          Добавить
+        </Button>
+      </div>
       <TableContainer component={Paper}>
         <Table aria-label="simple table">
           <TableHead>
@@ -58,21 +67,14 @@ const TableUsers = ({ dataUsers }: { dataUsers: User[] }) => {
                   {dayjs(item.createdAt).format("DD.MM.YYYY")}
                 </TableCell>
                 <TableCell>{item.name}</TableCell>
-                <TableCell>
-                  <img
-                    loading="lazy"
-                    className="avatar"
-                    src={item.avatar}
-                    alt="pic"
-                  />
-                </TableCell>
+                <TableCell> {item.lastName}</TableCell>
                 <TableCell>{item.city}</TableCell>
                 <TableCell>{item.id}</TableCell>
                 <TableCell>
                   <Button
                     variant="text"
                     size="small"
-                    onClick={() => editProfile(item)}
+                    onClick={() => editUser(item)}
                   >
                     Редактировать
                   </Button>

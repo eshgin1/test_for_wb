@@ -3,7 +3,7 @@ import type { ModalFormState } from "../../types/modalForm";
 
 const initialState: ModalFormState = {
   status: false,
-  editingItem: null,
+  user: null,
 };
 
 const modalFormSlice = createSlice({
@@ -12,11 +12,11 @@ const modalFormSlice = createSlice({
   reducers: {
     openModal: (state, action) => {
       state.status = true;
-      state.editingItem = action.payload;
+      state.user = action.payload;
     },
     closeModal: (state) => {
       state.status = false;
-      state.editingItem = null;
+      state.user = null;
     },
   },
 });

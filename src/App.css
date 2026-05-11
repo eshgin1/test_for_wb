@@ -1,11 +1,11 @@
+.table-header {
+  display: flex;
+  justify-content: space-between;
+}
 .table-block {
   padding: 10px 0;
   margin: 0 auto;
   width: 60%;
-}
-.avatar {
-  width: 50px;
-  height: 50px;
 }
 .pagination {
   padding: 10px 0;

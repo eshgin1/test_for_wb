@@ -2,7 +2,7 @@ export interface User {
   id: string;
   name: string;
   city: string;
-  avatar: string;
+  lastName: string;
   createdAt: string;
 }
 
@@ -15,4 +15,5 @@ export interface UsersState {
 export interface UserFormData {
   name: string;
   city: string;
+  lastName: string;
 }

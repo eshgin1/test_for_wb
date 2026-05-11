@@ -5,6 +5,7 @@ import type { UserFormData } from "../types/userTypes";
 import { useAppDispatch, useAppSelector } from "../hooks/useTypedDispatch";
 import { updateUser } from "../store/thunks/updateUser";
 import { Controller, useForm } from "react-hook-form";
+import { createUser } from "../store/thunks/createUser";
 
 const style = {
   position: "absolute",
@@ -22,7 +23,7 @@ const style = {
 
 const UserFormModal = () => {
   const dispatch = useAppDispatch();
-  const { status, editingItem } = useAppSelector((state) => state.modalForm);
+  const { status, user } = useAppSelector((state) => state.modalForm);
   const [loading, setLoading] = useState(false);
   const {
     control,
@@ -39,12 +40,14 @@ const UserFormModal = () => {
   };
 
   const onSubmit = async (data: UserFormData) => {
-    if (!editingItem) return;
     setLoading(true);
     try {
-      await dispatch(
-        updateUser({ id: editingItem.id, updatedData: data }),
-      ).unwrap();
+      if (user) {
+        await dispatch(updateUser({ id: user.id, updatedData: data })).unwrap();
+      } else {
+        await dispatch(createUser({ userData: data }));
+      }
+
       handleClose();
     } catch (error) {
       console.error(error);
@@ -54,13 +57,14 @@ const UserFormModal = () => {
   };
 
   useEffect(() => {
-    if (editingItem) {
+    if (user) {
       reset({
-        name: editingItem.name || "",
-        city: editingItem.city || "",
+        name: user.name || "",
+        lastName: user.lastName || "",
+        city: user.city || "",
       });
     }
-  }, [editingItem, reset]);
+  }, [user, reset]);
 
   return (
     <Modal
@@ -70,7 +74,11 @@ const UserFormModal = () => {
       aria-describedby="parent-modal-description"
     >
       <Box sx={style}>
-        <h2 id="parent-modal-title">Редактирование пользователя</h2>
+        <h2 id="parent-modal-title">
+          {user
+            ? "Редактирование пользователя"
+            : "Добавить нового пользователя"}
+        </h2>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Controller
             name="name"
@@ -85,6 +93,22 @@ const UserFormModal = () => {
                 fullWidth
                 error={!!errors.name}
                 helperText={errors.name?.message}
+              />
+            )}
+          />
+          <Controller
+            name="lastName"
+            control={control}
+            rules={{ required: "Фамилия обязательно" }}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                label="Фамилия"
+                variant="standard"
+                margin="normal"
+                fullWidth
+                error={!!errors.lastName}
+                helperText={errors.lastName?.message}
               />
             )}
           />
@@ -110,7 +134,7 @@ const UserFormModal = () => {
             disabled={loading}
             sx={{ mt: 2 }}
           >
-            {loading ? "Сохранение..." : "Изменить"}
+            {loading ? "Сохранение..." : "Сохранить"}
           </Button>
         </form>
       </Box>

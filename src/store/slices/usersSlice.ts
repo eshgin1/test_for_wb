@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { addUsers } from "../thunks/addUsers";
 import type { UsersState } from "../../types/userTypes";
 import { updateUser } from "../thunks/updateUser";
+import { createUser } from "../thunks/createUser";
 
 const initialState: UsersState = {
   dataUsers: [],
@@ -44,6 +45,18 @@ const usersSlice = createSlice({
       .addCase(updateUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload ?? "Ошибка обновления";
+      })
+      .addCase(createUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(createUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.dataUsers.unshift(action.payload);
+      })
+      .addCase(createUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload ?? "Ошибка при создании пользователя";
       });
   },
 });
