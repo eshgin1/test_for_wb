@@ -1,73 +1,51 @@
 # React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+"Управление пользователями" — тестовое задание (стажировка Wildberries)
+React-приложение для работы со списком пользователей через публичное REST API (MockAPI.io). Реализованы две страницы: таблица с пагинацией c возможность добавления и редактирования пользователя и карточка детальной информации.
 
-Currently, two official plugins are available:
+[Открыть демо на Vercel](https://test-for-wb.vercel.app)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+📦 Используемые технологии
+React + TypeScript
 
-## React Compiler
+React Router DOM — маршрутизация
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Redux Toolkit + Redux Thunk + Redux Persist — управление состоянием и асинхронные запросы
 
-## Expanding the ESLint configuration
+Fetch API — общение с сервером
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Material UI — компоненты интерфейса (таблица, модальное окно, формы, кнопки, пагинация)
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Vercel — деплой
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+📌 Реализованные требования
+#### Страница списка пользователей
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Таблица с колонками: id, дата, имя, фамилия, город, действие
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Пагинация (на стороне клиента)
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Кнопка «Добавить пользователя» → модальное окно с формой
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Кнопка «Редактировать» у каждой строки → то же модальное окно с подстановкой данных
+
+#### Страница детальной информации
+
+Переход по клику на имя в таблице
+
+Отображаются все поля пользователя
+
+#### Redux Toolkit + Thunk
+
+Асинхронные операции: получение списка, создание, редактирования
+
+Состояние загрузки и ошибок вынесено в слайс
+
+#### Обработка ошибок
+
+Если запрос GET/POST/PUT не удался, то будет текстовый блок с информацией об ошибке
+Сделано текстовое предупреждение если поля при добавлении или редактировании пустые 
+
+#### Деплой
+
+Проект развёрнут на Vercel.
