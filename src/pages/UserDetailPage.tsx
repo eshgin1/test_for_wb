@@ -17,7 +17,7 @@ const UserDetailPage = () => {
             <TextField
               id="standard-read-only-input"
               label="Уникальный индификатор"
-              value={findUser.id}
+              value={findUser?.id}
               variant="standard"
               focused
               slotProps={{
@@ -29,7 +29,7 @@ const UserDetailPage = () => {
             <TextField
               id="standard-read-only-input"
               label="Имя"
-              value={findUser.name}
+              value={findUser?.name}
               variant="standard"
               focused
               slotProps={{
@@ -41,7 +41,7 @@ const UserDetailPage = () => {
             <TextField
               id="standard-read-only-input"
               label="Фамилия"
-              value={findUser.lastName}
+              value={findUser?.lastName}
               variant="standard"
               focused
               slotProps={{
@@ -53,7 +53,7 @@ const UserDetailPage = () => {
             <TextField
               id="standard-read-only-input"
               label="Город"
-              value={findUser.city}
+              value={findUser?.city}
               variant="standard"
               focused
               slotProps={{
@@ -67,7 +67,7 @@ const UserDetailPage = () => {
             <TextField
               id="standard-read-only-input"
               label="Пол"
-              value={findUser.gender}
+              value={findUser?.gender}
               variant="standard"
               focused
               slotProps={{
@@ -79,7 +79,7 @@ const UserDetailPage = () => {
             <TextField
               id="standard-read-only-input"
               label="Номер телефона"
-              value={findUser.phone}
+              value={findUser?.phone}
               variant="standard"
               focused
               slotProps={{
@@ -91,7 +91,7 @@ const UserDetailPage = () => {
           </div>
           <div className="card-block-left">
             <div className="card-block-img">
-              <img src={findUser.avatar} alt="avatar" />
+              <img src={findUser?.avatar} alt="avatar" />
             </div>
           </div>
         </div>
