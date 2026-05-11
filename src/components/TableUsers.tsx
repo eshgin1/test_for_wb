@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import { useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { openModal } from "../store/slices/modalFormSlice";
 import type { User } from "../types/userTypes";
@@ -22,14 +23,13 @@ const TableUsers = ({ dataUsers }: { dataUsers: User[] }) => {
   const itemsPerPage = 5;
   const totalPages = Math.ceil(dataUsers.length / itemsPerPage);
 
-  const cols = useMemo(() => {
-    return dataUsers.length ? Object.keys(dataUsers[0]) : [];
-  }, [dataUsers]);
-
   const users = useMemo(() => {
+    const sorted = [...dataUsers].toSorted(
+      (a, b) => Number(b.id) - Number(a.id),
+    );
     const start = (page - 1) * itemsPerPage;
     const end = start + itemsPerPage;
-    return dataUsers?.slice(start, end);
+    return sorted?.slice(start, end);
   }, [dataUsers, page]);
 
   const editUser = (user: User) => {
@@ -54,22 +54,26 @@ const TableUsers = ({ dataUsers }: { dataUsers: User[] }) => {
         <Table aria-label="simple table">
           <TableHead>
             <TableRow>
-              {cols.map((item, i) => (
-                <TableCell key={i}>{item}</TableCell>
-              ))}
-              <TableCell>действие</TableCell>
+              <TableCell>ID</TableCell>
+              <TableCell>Дата</TableCell>
+              <TableCell>Имя</TableCell>
+              <TableCell>Фамилия</TableCell>
+              <TableCell>Город</TableCell>
+              <TableCell>Действие</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {users.map((item: User) => (
               <TableRow key={item.id}>
+                <TableCell>{item.id}</TableCell>
                 <TableCell>
                   {dayjs(item.createdAt).format("DD.MM.YYYY")}
                 </TableCell>
-                <TableCell>{item.name}</TableCell>
+                <TableCell>
+                  <Link to={`/user/${item.id}`}>{item.name}</Link>
+                </TableCell>
                 <TableCell> {item.lastName}</TableCell>
                 <TableCell>{item.city}</TableCell>
-                <TableCell>{item.id}</TableCell>
                 <TableCell>
                   <Button
                     variant="text"

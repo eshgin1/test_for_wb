@@ -43,7 +43,7 @@ const UserFormModal = () => {
     setLoading(true);
     try {
       if (user) {
-        await dispatch(updateUser({ id: user.id, updatedData: data })).unwrap();
+        await dispatch(updateUser({ id: user.id, updatedData: data }));
       } else {
         await dispatch(createUser({ userData: data }));
       }
@@ -132,7 +132,6 @@ const UserFormModal = () => {
             type="submit"
             variant="contained"
             disabled={loading}
-            sx={{ mt: 2 }}
           >
             {loading ? "Сохранение..." : "Сохранить"}
           </Button>

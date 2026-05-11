@@ -1,13 +1,39 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import {
+  FLUSH,
+  PAUSE,
+  PERSIST,
+  persistReducer,
+  persistStore,
+  PURGE,
+  REGISTER,
+  REHYDRATE,
+} from "redux-persist";
+import storage from "redux-persist/es/storage";
 import usersReducer from "./slices/usersSlice";
-import modalReducer from "./slices/modalFormSlice";
+import modalFormReducer from "./slices/modalFormSlice";
 
-export const store = configureStore({
-  reducer: {
-    users: usersReducer,
-    modalForm: modalReducer,
-  },
+const persistConfig = {
+  key: "root",
+  storage: storage,
+  whitelist: ["users"],
+};
+
+const rootReducer = combineReducers({
+  users: usersReducer,
+  modalForm: modalFormReducer,
 });
 
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+export const store = configureStore({
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
+});
+
+export const persistor = persistStore(store);

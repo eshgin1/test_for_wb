@@ -4,6 +4,9 @@ export interface User {
   city: string;
   lastName: string;
   createdAt: string;
+  gender: string;
+  phone: string;
+  avatar: string;
 }
 
 export interface UsersState {

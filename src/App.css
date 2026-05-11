@@ -10,3 +10,28 @@
 .pagination {
   padding: 10px 0;
 }
+.card {
+  margin: 0 auto;
+  width: 60%;
+}
+.card-block {
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+  padding-top: 20px;
+}
+.card-block-left {
+  display: flex;
+  flex-direction: column;
+}
+.card-block-center {
+  display: flex;
+  flex-direction: column;
+}
+.card-block-img {
+  width: 200px;
+  height: 200px;
+}
+.card-block-img img {
+  width: 100%;
+}
